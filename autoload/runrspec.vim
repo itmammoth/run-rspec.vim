@@ -1,4 +1,4 @@
-let g:run_rspec_bin = 'bundle exec rspec'
+let g:run_rspec_bin = 'rspec'
 let g:run_rspec_command_option = ''
 let g:run_rspec_result_lines = 15
 
