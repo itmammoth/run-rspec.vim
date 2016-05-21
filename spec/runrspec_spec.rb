@@ -28,4 +28,10 @@ RSpec.describe Array do
   describe '#shift' do
     pending 'not implemented'
   end
+
+  describe '#pop' do
+    it 'removes the last element from itself' do
+      raise 'Error!'
+    end
+  end
 end
