@@ -2,4 +2,5 @@
 .tags
 tags
 
+.bundle
 vendor/bundle
