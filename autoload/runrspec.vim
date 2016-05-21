@@ -53,6 +53,7 @@ function! s:do_rspec(full_cmd)
   " run rspec
   silent execute 'r!' a:full_cmd
   let s:last_full_cmd = a:full_cmd
+  silent setlocal nobuflisted nomodifiable readonly
   normal gg
 
   " map in result buffer
@@ -63,20 +64,27 @@ function! s:do_rspec(full_cmd)
 endfunction
 
 function! s:open_file()
-  let spec_file_pattern = '\S\+_spec\.rb:[0-9]\+'
-  " \zs$ : Hit at the end of line to include the current line.
-  call search(spec_file_pattern . '.*\zs$', 'csW')
-  let filepath_with_linenum = matchstr(getline('.'), spec_file_pattern)
+  let filepath_with_linenum = s:search_spec_file_with_linenum()
   if filepath_with_linenum == ''
     call s:show_warning('Not found spec file path.')
     return
   endif
-  " Get back to the position marked when searching.
-  normal `'
   let [filepath, linenum] = s:split_into_path_and_linenum(filepath_with_linenum)
   if !s:back_to_spec_window(filepath, linenum)
     call s:open_new_spec_window(filepath, linenum)
   endif
+endfunction
+
+function! s:search_spec_file_with_linenum()
+  let pattern = '\S\+_spec\.rb:[0-9]\+'
+  " \zs$ : Hit at the end of line to include the current line.
+  call search(pattern . '.*\zs$', 'csW')
+  let result = matchstr(getline('.'), pattern)
+  " Get back to the position marked when searching.
+  if result != ''
+    normal `'
+  end
+  return result
 endfunction
 
 function! s:split_into_path_and_linenum(filepath_with_linenum)
@@ -96,7 +104,8 @@ function! s:back_to_spec_window(filepath, linenum)
 endfunction
 
 function! s:open_new_spec_window(filepath, linenum)
-  execute 'e' a:filepath
+  silent execute 'wincmd p'
+  silent execute 'e' a:filepath
   call cursor(a:linenum, 1)
 endfunction
 
