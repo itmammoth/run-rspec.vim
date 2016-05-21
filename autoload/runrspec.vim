@@ -1,6 +1,12 @@
-let g:run_rspec_bin = 'rspec'
-let g:run_rspec_command_option = ''
-let g:run_rspec_result_lines = 15
+if !exists('g:run_rspec_bin')
+  let g:run_rspec_bin = 'rspec'
+endif
+if !exists('g:run_rspec_command_option')
+  let g:run_rspec_command_option = ''
+endif
+if !exists('g:run_rspec_result_lines')
+  let g:run_rspec_result_lines = 15
+endif
 
 let s:result_buffer = 'RunRspecResult'
 let s:last_full_cmd = ''
