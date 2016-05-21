@@ -8,21 +8,33 @@ if !exists('g:run_rspec_result_lines')
   let g:run_rspec_result_lines = 15
 endif
 
+let s:FALSE = 0
+let s:TRUE = !s:FALSE
+let s:NOT_FOUND = -1
+
 let s:result_buffer = 'RunRspecResult'
 let s:last_full_cmd = ''
 
 
 function! runrspec#rspec_current_file()
-  call s:do_rspec(s:build_rspec_full_cmd())
+  let filepath = s:get_current_filepath()
+  if !s:validate_spec_file(filepath)
+    return
+  endif
+  call s:do_rspec(s:build_full_cmd(filepath))
 endfunction
 
 function! runrspec#rspec_current_line()
+  let filepath = s:get_current_filepath()
+  if !s:validate_spec_file(filepath)
+    return
+  endif
   let linenum = getpos('.')[1]
-  call s:do_rspec(s:build_rspec_full_cmd() . ':' . linenum)
+  call s:do_rspec(s:build_full_cmd_with_linenum(filepath, linenum))
 endfunction
 
 function! runrspec#rspec_last_run()
-  if s:last_full_cmd ==# ''
+  if s:last_full_cmd == ''
     call s:show_warning('Nothing to re-run! You have not run any rspec yet.')
     return
   endif
@@ -30,14 +42,29 @@ function! runrspec#rspec_last_run()
 endfunction
 
 
-function! s:build_rspec_full_cmd()
-  let filepath = expand('%:p')
+function! s:get_current_filepath()
+  return expand('%:p')
+endfunction
+
+function! s:validate_spec_file(filepath)
+  if a:filepath !~? '.*_spec\.rb$'
+    call s:show_error('This is not rspec file.')
+    return s:FALSE
+  endif
+  return s:TRUE
+endfunction
+
+function! s:build_full_cmd(filepath)
   return join([
         \ g:run_rspec_bin,
         \ g:run_rspec_command_option,
         \ '--no-colour --format progress',
-        \ filepath,
+        \ a:filepath,
         \ ], ' ')
+endfunction
+
+function! s:build_full_cmd_with_linenum(filepath, linenum)
+  return s:build_full_cmd(a:filepath) . ':' . a:linenum
 endfunction
 
 function! s:do_rspec(full_cmd)
@@ -71,7 +98,7 @@ function! s:open_file()
   endif
   let [filepath, linenum] = s:split_into_path_and_linenum(filepath_with_linenum)
   if !s:back_to_spec_window(filepath, linenum)
-    call s:open_new_spec_window(filepath, linenum)
+    call s:open_spec_in_previous_window(filepath, linenum)
   endif
 endfunction
 
@@ -95,16 +122,16 @@ endfunction
 
 function! s:back_to_spec_window(filepath, linenum)
   let winnum = s:find_winnum(a:filepath)
-  if winnum > -1
+  if winnum != s:NOT_FOUND
     silent execute winnum 'wincmd w'
     call cursor(a:linenum, 1)
-    return 1
+    return s:TRUE
   endif
-  return 0
+  return s:FALSE
 endfunction
 
-function! s:open_new_spec_window(filepath, linenum)
-  silent execute 'wincmd p'
+function! s:open_spec_in_previous_window(filepath, linenum)
+  silent wincmd p
   silent execute 'e' a:filepath
   call cursor(a:linenum, 1)
 endfunction
@@ -112,11 +139,15 @@ endfunction
 function! s:find_winnum(filepath)
   for i in range(1, winnr('$'))
     let bname = bufname(winbufnr(i))
-    if match(bname, a:filepath) > -1
+    if match(bname, a:filepath) > s:NOT_FOUND
       return i
     endif
   endfor
-  return -1
+  return s:NOT_FOUND
+endfunction
+
+function! s:show_error(message)
+  echohl ErrorMsg | echo '[run-rspec] ' . a:message | echohl None
 endfunction
 
 function! s:show_warning(message)
