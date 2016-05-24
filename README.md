@@ -4,7 +4,7 @@ run-rspec.vim is a lovely rspec runner for Vim & MacVim.
 
 ![Screenshot](https://raw.githubusercontent.com/itmammoth/run-rspec.vim/master/images/run-rspec.png)
 
-Inspired by https://github.com/skwp/vim-rspec, but sounds like it's no longer maintained.
+Inspired by https://github.com/skwp/vim-rspec (Sounds like it's no longer maintained)
 
 # Features
 
