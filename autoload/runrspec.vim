@@ -1,12 +1,40 @@
+"
+" Custmizable variables
+"
+" * g:run_rspec_bin
+"
+" Set path to rspec binary
+" Ex)
+" let g:run_rspec_bin = 'bin/rspec'
+" let g:run_rspec_bin = 'bundle exec rspec'
+" let g:run_rspec_bin = 'spring rspec'
+"
 if !exists('g:run_rspec_bin')
   let g:run_rspec_bin = 'rspec'
 endif
+
+"
+" * g:run_rspec_command_option
+"
+" Set additional rspec options (optional)
+" Ex)
+" let g:run_rspec_command_option = '--only-failure'
+"
 if !exists('g:run_rspec_command_option')
   let g:run_rspec_command_option = ''
 endif
+
+"
+" * g:run_rspec_result_lines
+"
+" Set number of the result buffer lines (optional)
+" Ex)
+" let g:run_rspec_result_lines = 20
+"
 if !exists('g:run_rspec_result_lines')
   let g:run_rspec_result_lines = 15
 endif
+
 
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
@@ -14,7 +42,6 @@ let s:NOT_FOUND = -1
 
 let s:result_buffer = 'RunRspecResult'
 let s:last_full_cmd = ''
-
 
 function! runrspec#rspec_current_file()
   let filepath = s:get_current_filepath()
@@ -40,7 +67,6 @@ function! runrspec#rspec_last_run()
   endif
   call s:do_rspec(s:last_full_cmd)
 endfunction
-
 
 function! s:get_current_filepath()
   return expand('%:p')

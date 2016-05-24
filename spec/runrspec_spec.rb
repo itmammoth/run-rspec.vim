@@ -1,5 +1,3 @@
-# This is a spec file for testing run-rspec.vim
-
 RSpec.describe Array do
   describe '#new' do
     it 'returns a new array instance' do
