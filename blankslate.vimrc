@@ -3,6 +3,7 @@ set backspace=indent,eol,start
 
 setlocal runtimepath+=.
 filetype plugin indent on
+syntax on
 
 let g:run_rspec_bin = 'bundle exec rspec'
 nnoremap <leader>r :RunSpec<CR>
