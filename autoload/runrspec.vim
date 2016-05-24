@@ -16,9 +16,12 @@ endif
 "
 " * g:run_rspec_command_option
 "
-" Set additional rspec options (optional)
+" Set additional rspec options
 " Ex)
 " let g:run_rspec_command_option = '--only-failure'
+"
+" NOTICE:
+" -c --color, -f --format options will be ignored.
 "
 if !exists('g:run_rspec_command_option')
   let g:run_rspec_command_option = ''
@@ -27,7 +30,7 @@ endif
 "
 " * g:run_rspec_result_lines
 "
-" Set number of the result buffer lines (optional)
+" Set number of the result buffer lines
 " Ex)
 " let g:run_rspec_result_lines = 20
 "
