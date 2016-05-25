@@ -24,6 +24,13 @@ Add this to your .vimrc file.
 
 Then, `:call dein#install()`
 
+## Vundle
+
+    Plugin 'itmammoth/run-rspec.vim'
+    
+
+... and many other plugin managers.
+
 # Usage
 
 Hit the commands to run rspec.
