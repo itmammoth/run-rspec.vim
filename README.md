@@ -27,7 +27,7 @@ Then, `:call dein#install()`
 ## Vundle
 
     Plugin 'itmammoth/run-rspec.vim'
-    
+
 
 ... and many other plugin managers.
 
@@ -38,6 +38,7 @@ Hit the commands to run rspec.
     :RunSpec --- for running current rspec file
     :RunSpecLine --- for running the spec under the cursor
     :RunSpecLastRun --- for re-running the last rspec
+    :RunSpecCloseResult --- for closing the result window (from other window)
 
 #### Highly recommendation
 Add preferred key mappings to your `.vimrc` file like below for your comfortable rspec life.
@@ -45,6 +46,7 @@ Add preferred key mappings to your `.vimrc` file like below for your comfortable
     nnoremap <leader>r :RunSpec<CR>
     nnoremap <leader>l :RunSpecLine<CR>
     nnoremap <leader>e :RunSpecLastRun<CR>
+    nnoremap <leader>cr :RunSpecCloseResult<CR>
 
 # Result window
 
