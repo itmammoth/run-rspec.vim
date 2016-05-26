@@ -10,6 +10,7 @@ set cpo&vim
 command! RunSpec call runrspec#rspec_current_file()
 command! RunSpecLine call runrspec#rspec_current_line()
 command! RunSpecLastRun call runrspec#rspec_last_run()
+command! RunSpecCloseResult call runrspec#close_result_window()
 
 "
 " run-rspec.vim never provides any key-mappings to you.
@@ -18,6 +19,7 @@ command! RunSpecLastRun call runrspec#rspec_last_run()
 " nnoremap <leader>r :RunSpec<CR>
 " nnoremap <leader>l :RunSpecLine<CR>
 " nnoremap <leader>e :RunSpecLastRun<CR>
+" nnoremap <leader>cr :RunSpecCloseResult<CR>
 "
 
 let &cpo = s:save_cpo

@@ -9,3 +9,4 @@ let g:run_rspec_bin = 'bundle exec rspec'
 nnoremap <leader>r :RunSpec<CR>
 nnoremap <leader>l :RunSpecLine<CR>
 nnoremap <leader>e :RunSpecLastRun<CR>
+nnoremap <leader>cr :RunSpecCloseResult<CR>

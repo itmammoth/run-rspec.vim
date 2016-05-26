@@ -71,6 +71,16 @@ function! runrspec#rspec_last_run()
   call s:do_rspec(s:last_full_cmd)
 endfunction
 
+function! runrspec#close_result_window()
+  if !exists('s:result_window_number')
+    call s:show_warning('Result window is not opened.')
+    return
+  endif
+  silent execute s:result_window_number 'wincmd w'
+  normal q
+endfunction
+
+
 function! s:get_current_filepath()
   return expand('%:p')
 endfunction
@@ -105,6 +115,7 @@ function! s:do_rspec(full_cmd)
   silent execute 'edit' s:result_buffer
   silent setlocal buftype=nofile
   silent setlocal syntax=rspecresult
+  let s:result_window_number = winnr()
 
   " run rspec
   silent execute 'r!' a:full_cmd
