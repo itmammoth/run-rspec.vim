@@ -17,6 +17,13 @@ Inspired by https://github.com/skwp/vim-rspec (Sounds like it's no longer mainta
 
 # Installation
 
+## vim-plug
+Add this to your .vimrc file.
+
+    Plug 'itmammoth/run-rspec.vim'
+
+Then, `:PlugInstall`
+
 ## dein.vim
 Add this to your .vimrc file.
 
