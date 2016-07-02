@@ -126,6 +126,7 @@ function! s:do_rspec(full_cmd)
   " map in result buffer
   nnoremap <silent> <buffer> q :q<BAR>:wincmd p<CR>
   nnoremap <silent> <buffer> <CR> :call <SID>open_file()<CR>
+  nnoremap <silent> <buffer> e    :call <SID>open_file()<CR>:call runrspec#close_result_window()<CR>
   nnoremap <buffer> n /^\s\+[0-9][0-9]*)<CR>
   nnoremap <buffer> p ?^\s\+[0-9][0-9]*)<CR>
 endfunction
