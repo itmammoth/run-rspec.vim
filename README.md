@@ -60,6 +60,7 @@ Add preferred key mappings to your `.vimrc` file like below for your comfortable
 Some useful key mappings will be bound in the result buffer.
 
 * `Enter` ... Jump to the line in the rspec where the failure under the cursor occurred
+* `e` ... Jump to the line (the same as hitting `Enter`) and close the result window.
 * `n` ... Go to the next failure
 * `p` ... Go to the previous failure
 * `q` ... Close the result window
