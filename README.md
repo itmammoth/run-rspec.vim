@@ -13,6 +13,7 @@ Inspired by https://github.com/skwp/vim-rspec (Sounds like it's no longer mainta
 * Enhanced result window
   * Quick jump to line where spec failed
   * Quick find next/previous failure.
+* Auto detecting the location of the spec file
 * Work well with rspec 3.x
 
 # Installation
@@ -42,7 +43,7 @@ Then, `:call dein#install()`
 
 Hit the commands to run rspec.
 
-    :RunSpec --- for running current rspec file
+    :RunSpec --- for running the current rspec file (or auto detecting the rspec file for the current file)
     :RunSpecLine --- for running the spec under the cursor
     :RunSpecLastRun --- for re-running the last rspec
     :RunSpecCloseResult --- for closing the result window (from other window)
@@ -87,6 +88,14 @@ Set additional rspec options if you want.
 
 *NOTICE:*
 `-c`, `--colour`, `-f` and `--format` options will be ignored.
+
+#### g:run_rspec_spec_dir
+
+Set the directory where spec files are for auto detecting.  
+`default: 'spec'`
+
+    Ex)
+    let g:run_rspec_spec_dir = 'extra_spec'
 
 #### g:run_rspec_result_lines
 

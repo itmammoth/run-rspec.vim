@@ -28,6 +28,17 @@ if !exists('g:run_rspec_command_option')
 endif
 
 "
+" * g:run_rspec_spec_dir
+"
+" Set the directory where spec files are
+" Ex)
+" let g:run_rspec_spec_dir = 'extra_spec'
+"
+if !exists('g:run_rspec_spec_dir')
+  let g:run_rspec_spec_dir = 'spec'
+endif
+
+"
 " * g:run_rspec_result_lines
 "
 " Set number of the result buffer lines
@@ -49,7 +60,12 @@ let s:last_full_cmd = ''
 function! runrspec#rspec_current_file()
   let filepath = s:get_current_filepath()
   if !s:validate_spec_file(filepath)
-    return
+    let filepath = s:detect_spec_filepath()
+    if filepath == ''
+      call s:show_error("Not found a spec file.")
+      return
+    endif
+    call s:show_info("Auto detected the spec file - " . filepath)
   endif
   call s:do_rspec(s:build_full_cmd(filepath))
 endfunction
@@ -57,6 +73,7 @@ endfunction
 function! runrspec#rspec_current_line()
   let filepath = s:get_current_filepath()
   if !s:validate_spec_file(filepath)
+    call s:show_error('This is not a rspec file.')
     return
   endif
   let linenum = getpos('.')[1]
@@ -85,9 +102,14 @@ function! s:get_current_filepath()
   return expand('%:p')
 endfunction
 
+function! s:detect_spec_filepath()
+  let filename = substitute(expand('%:t'), '\.', '_spec.', '')
+  let dir = fnamemodify(substitute(expand('%:p'), expand('%:h'), g:run_rspec_spec_dir, ''), ':p:h')
+  return findfile(filename, dir)
+endfunction
+
 function! s:validate_spec_file(filepath)
   if a:filepath !~? '.*_spec\.rb$'
-    call s:show_error('This is not rspec file.')
     return s:FALSE
   endif
   return s:TRUE
@@ -193,4 +215,8 @@ endfunction
 
 function! s:show_warning(message)
   echohl WarningMsg | echo '[run-rspec] ' . a:message | echohl None
+endfunction
+
+function! s:show_info(message)
+  echo '[run-rspec] ' . a:message
 endfunction
