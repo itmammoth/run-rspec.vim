@@ -89,6 +89,14 @@ Set additional rspec options if you want.
 *NOTICE:*
 `-c`, `--colour`, `-f` and `--format` options will be ignored.
 
+#### g:run_rspec_src_dir
+
+Set the directory where src files are for auto detecting.  
+`default: 'app'`
+
+    Ex)
+    let g:run_rspec_src_dir = 'extra_src'
+
 #### g:run_rspec_spec_dir
 
 Set the directory where spec files are for auto detecting.  

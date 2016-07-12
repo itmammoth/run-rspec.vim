@@ -28,6 +28,17 @@ if !exists('g:run_rspec_command_option')
 endif
 
 "
+" * g:run_rspec_src_dir
+"
+" Set the directory where src files are
+" Ex)
+" let g:run_rspec_src_dir = 'src'
+"
+if !exists('g:run_rspec_src_dir')
+  let g:run_rspec_src_dir = 'app'
+endif
+
+"
 " * g:run_rspec_spec_dir
 "
 " Set the directory where spec files are
@@ -103,8 +114,8 @@ function! s:get_current_filepath()
 endfunction
 
 function! s:detect_spec_filepath()
-  let filename = substitute(expand('%:t'), '\.', '_spec.', '')
-  let dir = fnamemodify(substitute(expand('%:p'), expand('%:h'), g:run_rspec_spec_dir, ''), ':p:h')
+  let filename = substitute(expand('%:t'), '\.rb', '_spec.rb', '')
+  let dir = substitute(substitute(expand('%:p'), g:run_rspec_src_dir, g:run_rspec_spec_dir, ''), expand('%:t'), '', '')
   return findfile(filename, dir)
 endfunction
 
