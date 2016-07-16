@@ -144,8 +144,9 @@ function! s:do_rspec(full_cmd)
   if bufexists(s:result_buffer)
     silent execute 'bw!' s:result_buffer
   endif
-  silent execute 'botright' g:run_rspec_result_lines 'new'
+  silent execute 'botright' 'new'
   silent execute 'edit' s:result_buffer
+  silent execute 'resize' g:run_rspec_result_lines
   silent setlocal buftype=nofile
   silent setlocal syntax=rspecresult
   let s:result_window_number = winnr()
