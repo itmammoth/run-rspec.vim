@@ -2,7 +2,7 @@
 *.swp
 .tags
 tags
-.tablemaker.vim
+.bon-voyage.vim
 
 .bundle
 vendor/bundle
