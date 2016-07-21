@@ -146,7 +146,6 @@ function! s:do_rspec(full_cmd)
   endif
   silent execute 'botright' 'new'
   silent execute 'edit' s:result_buffer
-  silent execute 'resize' g:run_rspec_result_lines
   silent setlocal buftype=nofile
   silent setlocal syntax=rspecresult
   let s:result_window_number = winnr()
@@ -156,6 +155,7 @@ function! s:do_rspec(full_cmd)
   let s:last_full_cmd = a:full_cmd
   silent setlocal nobuflisted nomodifiable readonly
   normal gg
+  silent execute 'resize' g:run_rspec_result_lines
 
   " map in result buffer
   nnoremap <silent> <buffer> q :q<BAR>:wincmd p<CR>
