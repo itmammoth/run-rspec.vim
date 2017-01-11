@@ -156,11 +156,13 @@ function! s:do_rspec(full_cmd)
     let job = job_start(a:full_cmd, {
           \ 'out_io': 'buffer',
           \ 'out_name': s:result_buffer,
-          \ 'close_cb': 'RunRspecJobCloseHandler'
+          \ 'out_modifiable': 0
           \ })
+    silent execute 'resize' g:run_rspec_result_lines
   else
     silent execute 'r!' a:full_cmd
-    call RunRspecJobCloseHandler('no_channel')
+    silent setlocal nobuflisted nomodifiable readonly
+    silent execute 'resize' g:run_rspec_result_lines
   endif
   let s:last_full_cmd = a:full_cmd
 
@@ -170,12 +172,6 @@ function! s:do_rspec(full_cmd)
   nnoremap <silent> <buffer> e    :call <SID>open_file()<CR>:call runrspec#close_result_window()<CR>
   nnoremap <buffer> n /^\s\+[0-9][0-9]*)<CR>
   nnoremap <buffer> p ?^\s\+[0-9][0-9]*)<CR>
-endfunction
-
-function! RunRspecJobCloseHandler(channel)
-  silent setlocal nobuflisted nomodifiable readonly
-  normal gg
-  silent execute 'resize' g:run_rspec_result_lines
 endfunction
 
 function! s:open_file()
