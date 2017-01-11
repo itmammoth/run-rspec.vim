@@ -152,12 +152,12 @@ function! s:do_rspec(full_cmd)
 
   " run rspec
   if has('channel')
+    call s:show_info('Running spec...')
     let job = job_start(a:full_cmd, {
           \ 'out_io': 'buffer',
           \ 'out_name': s:result_buffer,
           \ 'out_modifiable': 0
           \ })
-    call s:show_info('Running spec...')
     silent execute 'resize' g:run_rspec_result_lines
   else
     silent execute 'r!' a:full_cmd
