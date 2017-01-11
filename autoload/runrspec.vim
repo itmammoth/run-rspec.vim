@@ -151,11 +151,18 @@ function! s:do_rspec(full_cmd)
   let s:result_window_number = winnr()
 
   " run rspec
-  silent execute 'r!' a:full_cmd
+  if has('channel')
+    call s:show_info('Running spec...')
+    let job = job_start(a:full_cmd, {
+          \ 'out_io': 'buffer',
+          \ 'out_name': s:result_buffer,
+          \ 'close_cb': 'RunRspecJobCloseHandler'
+          \ })
+  else
+    silent execute 'r!' a:full_cmd
+    call RunRspecJobCloseHandler('no_channel')
+  endif
   let s:last_full_cmd = a:full_cmd
-  silent setlocal nobuflisted nomodifiable readonly
-  normal gg
-  silent execute 'resize' g:run_rspec_result_lines
 
   " map in result buffer
   nnoremap <silent> <buffer> q :q<BAR>:wincmd p<CR>
@@ -163,6 +170,12 @@ function! s:do_rspec(full_cmd)
   nnoremap <silent> <buffer> e    :call <SID>open_file()<CR>:call runrspec#close_result_window()<CR>
   nnoremap <buffer> n /^\s\+[0-9][0-9]*)<CR>
   nnoremap <buffer> p ?^\s\+[0-9][0-9]*)<CR>
+endfunction
+
+function! RunRspecJobCloseHandler(channel)
+  silent setlocal nobuflisted nomodifiable readonly
+  normal gg
+  silent execute 'resize' g:run_rspec_result_lines
 endfunction
 
 function! s:open_file()
