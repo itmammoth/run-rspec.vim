@@ -151,18 +151,24 @@ function! s:do_rspec(full_cmd)
   let s:result_window_number = winnr()
 
   " run rspec
+  " TODO: あとで戻す
   if has('channel')
-    call s:show_info('Running spec...')
+  " if s:FALSE
     let job = job_start(a:full_cmd, {
           \ 'out_io': 'buffer',
           \ 'out_name': s:result_buffer,
-          \ 'out_modifiable': 0
+          \ 'out_modifiable': 0,
+          \ 'err_io': 'buffer',
+          \ 'err_name': s:result_buffer,
+          \ 'err_modifiable': 0
           \ })
     silent execute 'resize' g:run_rspec_result_lines
+    execute ':normal i' . 'Running spec...'
   else
     silent execute 'r!' a:full_cmd
     silent setlocal nobuflisted nomodifiable readonly
     silent execute 'resize' g:run_rspec_result_lines
+    normal gg
   endif
   let s:last_full_cmd = a:full_cmd
 
