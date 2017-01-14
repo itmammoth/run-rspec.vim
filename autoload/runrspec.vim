@@ -160,6 +160,7 @@ function! s:do_rspec(full_cmd)
           \ 'err_name': s:result_buffer,
           \ 'err_modifiable': 0
           \ })
+    silent setlocal nobuflisted
     silent execute 'resize' g:run_rspec_result_lines
     execute ':normal i' . 'Running spec...'
   else
